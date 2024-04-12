@@ -1,10 +1,11 @@
 [Unit]
 Description=Check restic backup
-Conflicts=restic-backup.service
 
 [Service]
 Type=simple
 Nice=10
+# $HOME or $XDG_CACHE_HOME must be set for restic to find /root/.cache/restic/
+Environment="HOME=/root"
 # Do not run if the backup service is currently running
 ExecStartPre=/bin/bash -c '/usr/bin/systemctl is-active --quiet restic-backup@%I.service && exit 1 || exit 0'
 # pipefail: so that redirecting stderr from the script to systemd-cat does not hide the failed command from OnFailure above.
