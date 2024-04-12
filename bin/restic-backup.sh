@@ -41,7 +41,7 @@ wait $!
 # specified in $RESTIC_BACKUP_PATHS, and not directories like /dev, /sys etc.
 # --tag lets us reference these backups later when doing restic-forget.
 restic backup \
-	-v \
+	--verbose=2 \
 	--no-scan \
 	--one-file-system \
 	--tag automated \
@@ -57,7 +57,7 @@ wait $!
 # create a B2 Bucket per host, and if this hostname accidentially change some
 # time, there would now be multiple backup sets.
 restic forget \
-	-v \
+	--verbose=2 \
 	"${b2_conn_arg[@]}" \
 	--group-by "paths,tags" \
 	--tag automated \

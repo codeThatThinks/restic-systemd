@@ -27,7 +27,7 @@ b2_conn_arg=
 
 # Prune old backups.
 restic prune \
-	-v \
+	--verbose=2 \
 	"${b2_conn_arg[@]}" \
 	"${RESTIC_PRUNE_ARGS[@]}" \
 	&
@@ -35,7 +35,7 @@ wait $!
 
 # Check repository for errors.
 restic check \
-	-v \
+	--verbose=2 \
 	"${b2_conn_arg[@]}" \
 	"${RESTIC_CHECK_ARGS[@]}" \
 	&
