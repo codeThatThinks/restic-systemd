@@ -3,6 +3,9 @@
 set -o errexit
 set -o pipefail
 
+# source config file
+[ $# -eq 1 ] && source $1 || echo Usage: $0 CONFIG_FILE; exit 1
+
 # Clean up lock if we are killed.
 # If killed by systemd, like $(systemctl stop restic), then it kills the whole cgroup and all it's subprocesses.
 # However if we kill this script ourselves, we need this trap that kills all subprocesses manually.
