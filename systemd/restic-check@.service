@@ -1,0 +1,14 @@
+[Unit]
+Description=Check restic backup
+Conflicts=restic-backup.service
+
+[Service]
+Type=simple
+Nice=10
+# Do not run if the backup service is currently running
+ExecStartPre=/bin/bash -c '/usr/bin/systemctl is-active --quiet restic-backup@I%.service && exit 1 || exit 0'
+# pipefail: so that redirecting stderr from the script to systemd-cat does not hide the failed command from OnFailure above.
+# `systemd-cat`: allows showing the restic output to the systemd journal
+ExecStart=/bin/bash -c 'set -o pipefail; source /etc/restic.d/%I.conf && /usr/local/bin/restic-check.sh 2>&1 | systemd-cat'
+Restart=on-failure
+RestartSec=5m
